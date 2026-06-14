@@ -378,8 +378,8 @@ span.bg-amber-500 .text-white,
   font-family: var(--font-heading);
   font-weight: 850;
   font-size: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin-top: 2.25rem;
+  margin-bottom: 1.25rem;
   color: var(--blog-heading);
   transition: color 0.5s ease;
 }
@@ -404,6 +404,84 @@ span.bg-amber-500 .text-white,
   font-family: monospace;
   color: var(--blog-code-color);
   transition: all 0.5s ease;
+}
+
+/* Ensure headings, blockquotes, list blocks, and pre codes clear floated images safely */
+.blog-content h2,
+.blog-content h3,
+.blog-content blockquote,
+.blog-content pre,
+.blog-content ul,
+.blog-content ol {
+  clear: both;
+}
+
+/* Standard blog editorial inline images (floated or centered layout) */
+.blog-content figure {
+  display: block;
+  width: 100%;
+}
+
+.blog-content figure.blog-fig-left {
+  float: left;
+  margin: 0.5rem 1.5rem 1.25rem 0;
+  max-width: 320px;
+}
+
+.blog-content figure.blog-fig-right {
+  float: right;
+  margin: 0.5rem 0 1.25rem 1.5rem;
+  max-width: 320px;
+}
+
+.blog-content figure.blog-fig-center {
+  margin: 2rem auto;
+  text-align: center;
+  max-width: 520px;
+}
+
+.blog-content figure img {
+  border-radius: 0.75rem;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blog-content figure img:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+html.dark .blog-content figure img {
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .blog-content figure img:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+}
+
+.blog-content figure figcaption {
+  font-size: 0.725rem;
+  color: var(--blog-text);
+  opacity: 0.55;
+  margin-top: 0.625rem;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Clearfix for the blog-content container */
+.blog-content::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
 /* Explicit layout compatibility overrides */
