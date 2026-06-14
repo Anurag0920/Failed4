@@ -87,7 +87,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable} h-full scroll-smooth`} data-scroll-behavior="smooth">
+    <html lang="en" className={`${inter.variable} ${outfit.variable} h-full scroll-smooth`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
