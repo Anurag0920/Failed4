@@ -71,9 +71,43 @@ export default function ServicesSection() {
                 >
                   <div>
                     {/* Icon Container */}
-                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-white/[0.02] border border-white/5 text-white mb-6 group-hover:bg-white/10 transition-colors">
-                      <Icon className="w-6 h-6 text-white/90" />
-                    </div>
+                    <motion.div 
+                      className="w-12 h-12 rounded-2xl flex items-center justify-center border cursor-pointer mb-6"
+                      style={{
+                        backgroundColor: index % 4 === 0 ? 'rgba(132, 204, 22, 0.04)' :
+                                         index % 4 === 1 ? 'rgba(14, 165, 233, 0.04)' :
+                                         index % 4 === 2 ? 'rgba(37, 99, 235, 0.04)' :
+                                         'rgba(100, 116, 139, 0.04)',
+                        borderColor: index % 4 === 0 ? 'rgba(132, 204, 22, 0.12)' :
+                                     index % 4 === 1 ? 'rgba(14, 165, 233, 0.12)' :
+                                     index % 4 === 2 ? 'rgba(37, 99, 235, 0.12)' :
+                                     'rgba(100, 116, 139, 0.12)',
+                        color: index % 4 === 0 ? '#84cc16' :
+                               index % 4 === 1 ? '#0ea5e9' :
+                               index % 4 === 2 ? '#2563eb' :
+                               '#64748b'
+                      }}
+                      whileHover={{
+                        scale: 1.18,
+                        rotate: 15,
+                        background: index % 4 === 0 ? 'linear-gradient(135deg, #84cc16 0%, #4d7c0f 100%)' :
+                                    index % 4 === 1 ? 'linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%)' :
+                                    index % 4 === 2 ? 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)' :
+                                    'linear-gradient(135deg, #64748b 0%, #334155 100%)',
+                        borderColor: index % 4 === 0 ? '#84cc16' :
+                                     index % 4 === 1 ? '#0ea5e9' :
+                                     index % 4 === 2 ? '#2563eb' :
+                                     '#64748b',
+                        color: '#ffffff',
+                        boxShadow: index % 4 === 0 ? '0 0 25px rgba(132, 204, 22, 0.4)' :
+                                   index % 4 === 1 ? '0 0 25px rgba(14, 165, 233, 0.4)' :
+                                   index % 4 === 2 ? '0 0 25px rgba(37, 99, 235, 0.4)' :
+                                   '0 0 25px rgba(100, 116, 139, 0.4)'
+                      }}
+                      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                    >
+                      <Icon className="w-5.5 h-5.5 text-current" />
+                    </motion.div>
 
                     <h3 className="font-heading font-bold text-xl text-white mb-3">
                       {service.title}
