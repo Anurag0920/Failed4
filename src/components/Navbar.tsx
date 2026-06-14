@@ -4,16 +4,21 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Sun, Moon } from 'lucide-react';
 import Button from './ui/Button';
 import Logo from './ui/Logo';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const pathname = usePathname();
 
   useEffect(() => {
+    // Initial theme check
+    const isDark = document.documentElement.classList.contains('dark');
+    setTheme(isDark ? 'dark' : 'light');
+
     const handleScroll = () => {
       if (window.scrollY > 20) {
         setScrolled(true);
@@ -24,6 +29,18 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const toggleTheme = () => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+      setTheme('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+      setTheme('light');
+    }
+  };
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -76,20 +93,24 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* CTA */}
-        <div className="hidden md:block">
+        {/* CTA & Theme Toggle */}
+        <div className="hidden md:flex items-center gap-4">
+          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
           <Button href="/contact" variant="glow" className="!px-5 !py-2.5">
             Let's Talk <ArrowUpRight className="w-4 h-4" />
           </Button>
         </div>
 
-        {/* Mobile Toggle */}
-        <button
-          className="md:hidden text-white/80 hover:text-white p-1 focus:outline-none z-50 cursor-pointer"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        {/* Mobile Controls */}
+        <div className="flex items-center gap-3 md:hidden">
+          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+          <button
+            className="text-white/80 hover:text-white p-1 focus:outline-none z-50 cursor-pointer"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -145,5 +166,51 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </motion.header>
+  );
+}
+
+interface ThemeToggleProps {
+  theme: 'light' | 'dark';
+  toggleTheme: () => void;
+}
+
+function ThemeToggle({ theme, toggleTheme }: ThemeToggleProps) {
+  return (
+    <motion.button
+      onClick={toggleTheme}
+      className="w-10 h-10 rounded-full flex items-center justify-center border cursor-pointer relative overflow-hidden"
+      style={{
+        borderColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(15, 23, 42, 0.08)',
+        backgroundColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.02)' : 'rgba(15, 23, 42, 0.02)',
+        color: theme === 'dark' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(15, 23, 42, 0.8)'
+      }}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      aria-label="Toggle Theme"
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        {theme === 'dark' ? (
+          <motion.div
+            key="sun"
+            initial={{ y: 15, rotate: -90, opacity: 0 }}
+            animate={{ y: 0, rotate: 0, opacity: 1 }}
+            exit={{ y: -15, rotate: 90, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+          >
+            <Sun className="w-4.5 h-4.5 text-amber-400 fill-amber-400" />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="moon"
+            initial={{ y: 15, rotate: -90, opacity: 0 }}
+            animate={{ y: 0, rotate: 0, opacity: 1 }}
+            exit={{ y: -15, rotate: 90, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+          >
+            <Moon className="w-4.5 h-4.5 text-indigo-600 fill-indigo-600/10" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.button>
   );
 }
